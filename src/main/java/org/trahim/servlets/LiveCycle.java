@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +35,9 @@ class LiveCycleBean {
     }
 
     @PostConstruct
-    private void postConstructor() {
+    private void postMyConstructor(InvocationContext context) throws Exception {
         System.out.println("post constructor");
+        context.proceed();
     }
 
     @PreDestroy
@@ -44,8 +46,9 @@ class LiveCycleBean {
     }
 
     @AroundInvoke
-    private void aroundInvoke() {
+    private Object aroundMethod(InvocationContext context) throws Exception {
         System.out.println("before method");
+        return context.proceed();
     }
 
 
